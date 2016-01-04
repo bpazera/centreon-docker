@@ -17,7 +17,7 @@ mkdir -p /var/log/nagios/
 chown -R nagios:nagios /var/log/nagios
 chmod -R g+w /var/log/nagios
 
-yes n | cp -i /root/centreon-etc/inst* /etc/centreon/ 2> /dev/null
+yes n | cp -i /tmp/centreon-etc/inst* /etc/centreon/ 2> /dev/null
 
 # Stop Centreon stumbling over its own feet...
 if [ -f /etc/centreon/conf.pm ]
