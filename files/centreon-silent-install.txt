@@ -87,9 +87,9 @@ FORCE_SUDO_CONF=1
 DIR_APACHE="/etc/apache2"
 ## Apache local specific configuration directory (optional)
 ## Do you want to update Centreon Apache sub configuration file ?
-DIR_APACHE_CONF="/etc/apache2/conf.d"
+DIR_APACHE_CONF="/etc/apache2/conf-available"
 ## Apache configuration file. Only file name. (optional)
-APACHE_CONF="apache.conf"
+APACHE_CONF="apache2.conf"
 ## Apache user (optional)
 WEB_USER="www-data"
 ## Apache group (optional)

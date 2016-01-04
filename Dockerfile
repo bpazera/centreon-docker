@@ -84,8 +84,12 @@ RUN useradd -m centreon
 RUN touch /etc/init.d/nagios
 RUN ./install.sh -f ../centreon-silent-install.txt
 RUN adduser centreon www-data
+RUN a2enconf centreon.conf
 # move files aside so that start.sh can copy them to volume centreon-etc
 RUN mv /etc/centreon /tmp/centreon-etc
+
+#enable centron in apache2
+RUN a2enconf centreon.conf
 
 # http://museum.php.net/php5/php-5.3.1.tar.bz2
 ADD files/start.sh /start.sh

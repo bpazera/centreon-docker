@@ -1,11 +1,9 @@
 # Dockerized Centreon 2.6.6
-
-This is NOT well-tested. Please report all issues/requirements to either of the emails at the bottom of this page.  
+Based on vegasbrianc/docker-centreon with small fixes
+This is NOT well-tested. 
 
 It works on two different installations but the result you see evolved
 while getting it to this stage..
-
-Please report any problems!
 
 ## Preparing the host
 
@@ -27,8 +25,7 @@ First step you do with this repo (if you cloned it) is to build it. Note that do
 
 If your prefer to pull directly from Docker
 
-	docker pull vegasbrianc/docker-centreon
-
+	docker pull bpazera/docker-centreon
 
 
 ## Running the container
@@ -149,3 +146,4 @@ Check for errors from ndo2db in syslog. See above.
 
 * Philipp Adelt (Primary) <info@philipp.adelt.net>
 * Brian Christner (Secondary) <brian.christner@gmail.com>
+* Blazej Pazera <b.pazera@oberthur.com>
