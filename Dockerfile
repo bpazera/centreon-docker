@@ -132,7 +132,7 @@ ADD files/centreon-silent-install.txt /tmp/nagios/centreon-silent-install.txt
 RUN useradd -m centreon
 RUN touch /etc/init.d/nagios
 RUN ./install.sh -f ../centreon-silent-install.txt
-RUN sed -i '/    Allow from all/a \    Require all granted' /etc/apache2/conf-enabled/centreon.conf
+RUN sed -i '/    Allow from all/a \    Require all granted' /etc/apache2/conf-available/centreon.conf
 RUN adduser centreon www-data
 # move files aside so that start.sh can copy them to volume centreon-etc
 RUN mv /etc/centreon /tmp/centreon-etc
