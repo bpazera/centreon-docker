@@ -1,9 +1,64 @@
 FROM ubuntu:trusty
 MAINTAINER Blazej Pazera <b.pazera@oberthur.com>
-RUN apt-get update && apt-get -y upgrade
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get -y install apt-utils
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get -y install python2.7 libperl-dev mysql-client apache2 libapache2-mod-php5 python-setuptools nano mc vim-tiny php5-memcached php5-geoip php5-gd php5-ldap php5-imap php5-pgsql php5-mcrypt sudo heirloom-mailx lsb-release build-essential apache2 apache2-mpm-prefork php5 php5-mysql php-pear php5-ldap php5-snmp php5-gd mysql-server libmysqlclient-dev rrdtool librrds-perl libconfig-inifiles-perl libcrypt-des-perl libdigest-hmac-perl libdigest-sha-perl libgd-gd2-perl snmp snmpd libnet-snmp-perl libsnmp-perl libpng12-dev postfix wget iputils-ping smbclient libssl-dev dnsutils fping less vim net-tools rsyslog supervisor
-# libgd2-xpm libgd2-xpm-dev 
+# libgd2-xpm libgd2-xpm-dev mysql-server vim
+RUN apt-get update && apt-get install -y \
+    apt-utils \
+	python2.7 \
+	libperl-dev \
+	mysql-client \
+	apache2 \
+	libapache2-mod-php5 \
+	python-setuptools \
+	nano \
+	mc \
+	php5-memcached \
+	php5-geoip \
+	php5-gd \
+	php5-ldap \
+	php5-imap \
+	php5-pgsql \
+	php5-mcrypt \
+	sudo \
+	heirloom-mailx \
+	lsb-release \
+	build-essential \
+	apache2 \
+	apache2-mpm-prefork \
+	php5 \
+	php5-mysql \
+	php-pear \
+	php5-ldap \
+	php5-snmp \
+	php5-gd \
+	libmysqlclient-dev \
+	rrdtool \
+	librrds-perl \
+	libconfig-inifiles-perl \
+	libcrypt-des-perl \
+	libdigest-hmac-perl \
+	libdigest-sha-perl \
+	libgd-gd2-perl \
+	snmp \
+	snmpd \
+	libnet-snmp-perl \
+	libsnmp-perl \
+	libpng12-dev \
+	postfix \
+	wget \
+	curl \
+	iputils-ping \
+	smbclient \
+	libssl-dev \
+	dnsutils \
+	fping \
+	less \
+	net-tools \
+	rsyslog \
+	supervisor \
+	aufs-tools \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
+
 
 ADD files/bashrc /.bashrc
 
@@ -16,19 +71,13 @@ RUN bash -c "echo nagios:nagios | chpasswd"
 RUN groupadd nagcmd
 RUN usermod -a -G nagcmd nagios
 RUN usermod -a -G nagcmd www-data
-RUN mkdir /tmp/nagios
+RUN mkdir -p /tmp/nagios 
 WORKDIR /tmp/nagios
-ADD https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.1.1.tar.gz /tmp/nagios/
-RUN tar -xzvf nagios-4.1.1.tar.gz
 
-ADD http://www.nagios-plugins.org/download/nagios-plugins-2.1.1.tar.gz /tmp/nagios/
-RUN tar -xzf nagios-plugins-2.1.1.tar.gz
-
-ADD http://downloads.sourceforge.net/project/nagios/ndoutils-2.x/ndoutils-2.0.0/ndoutils-2.0.0.tar.gz?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Fnagios%2Ffiles%2Fndoutils-2.x%2Fndoutils-2.0.0%2F&ts=1451489905&use_mirror=skylink /tmp/nagios/
-RUN tar -xzf ndoutils-2.0.0.tar.gz
-
-ADD https://s3-eu-west-1.amazonaws.com/centreon-download/public/centreon/centreon-2.6.6.tar.gz /tmp/nagios/
-RUN tar -xzf centreon-2.6.6.tar.gz
+RUN curl -SL https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.1.1.tar.gz | tar -xzv
+RUN curl -SL http://www.nagios-plugins.org/download/nagios-plugins-2.1.1.tar.gz | tar -xzv
+RUN curl -SL "http://downloads.sourceforge.net/project/nagios/ndoutils-2.x/ndoutils-2.0.0/ndoutils-2.0.0.tar.gz?r=&ts=1451927776&use_mirror=kent" | tar -xzv
+RUN curl -SL https://s3-eu-west-1.amazonaws.com/centreon-download/public/centreon/centreon-2.6.6.tar.gz | tar -xzv
 RUN chown -R root:root centreon-2.6.6
 
 # Build Nagios
@@ -83,8 +132,8 @@ ADD files/centreon-silent-install.txt /tmp/nagios/centreon-silent-install.txt
 RUN useradd -m centreon
 RUN touch /etc/init.d/nagios
 RUN ./install.sh -f ../centreon-silent-install.txt
+RUN sed -i '/    Allow from all/a \    Require all granted' /etc/apache2/conf-enabled/centreon.conf
 RUN adduser centreon www-data
-RUN a2enconf centreon.conf
 # move files aside so that start.sh can copy them to volume centreon-etc
 RUN mv /etc/centreon /tmp/centreon-etc
 

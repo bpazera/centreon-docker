@@ -1,3 +1,5 @@
+<a href='https://imagelayers.io/?images=bpazera/centreon-docker:latest' title='Get your own badge on imagelayers.io'><img src='https://badge.imagelayers.io/bpazera/centreon-docker:latest.svg'></a>
+
 # Dockerized Centreon 2.6.6
 Based on vegasbrianc/docker-centreon with small fixes
 This is NOT well-tested. 
