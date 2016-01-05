@@ -98,7 +98,6 @@ ADD files/initialize.sh /tmp/nagios/initialize.sh
 RUN chmod +x /tmp/nagios/initialize.sh
 ADD files/restart-nagios.sh /restart-nagios.sh
 RUN chmod +x /restart-nagios.sh
-## CO TO KURWA MA BYC? ------>>  RUN cp p1.pl /usr/local/nagios/share/   << ----- NA JAKI CHUJ TO TUTAJ JEST?
 
 RUN mkdir -p /var/log/nagios/rw
 RUN chown -R nagios:nagios /var/log/nagios

@@ -1,10 +1,7 @@
 [![](https://badge.imagelayers.io/bpazera/centreon-docker:latest.svg)](https://imagelayers.io/?images=bpazera/centreon-docker:latest 'Get your own badge on imagelayers.io')
 # Dockerized Centreon 2.6.6
-Based on vegasbrianc/docker-centreon with small fixes
+Based on vegasbrianc/docker-centreon with some fixes and improvements
 This is NOT well-tested. 
-
-It works on two different installations but the result you see evolved
-while getting it to this stage..
 
 ## Preparing the host
 
