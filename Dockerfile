@@ -75,14 +75,14 @@ RUN usermod -a -G nagcmd www-data
 RUN mkdir -p /tmp/nagios 
 WORKDIR /tmp/nagios
 
-RUN curl -SL https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.1.1.tar.gz | tar -xzv
+RUN curl -SL https://assets.nagios.com/downloads/nagioscore/releases/nagios-3.5.1.tar.gz | tar -xzv
 RUN curl -SL http://www.nagios-plugins.org/download/nagios-plugins-2.1.1.tar.gz | tar -xzv
 RUN curl -SL "http://downloads.sourceforge.net/project/nagios/ndoutils-2.x/ndoutils-2.0.0/ndoutils-2.0.0.tar.gz?r=&ts=1451927776&use_mirror=kent" | tar -xzv
 RUN curl -SL https://s3-eu-west-1.amazonaws.com/centreon-download/public/centreon/centreon-2.6.6.tar.gz | tar -xzv
 RUN chown -R root:root centreon-2.6.6
 
 # Build Nagios
-WORKDIR /tmp/nagios/nagios-4.1.1
+WORKDIR /tmp/nagios/nagios-3.5.1
 RUN ./configure --with-command-group=nagcmd --enable-nanosleep --enable-event-broker --enable-embedded-perl --prefix=/usr/local/nagios 2>&1 | tail -n 10
 RUN make all  2>&1 | tail -n 10
 RUN make install
@@ -98,6 +98,7 @@ ADD files/initialize.sh /tmp/nagios/initialize.sh
 RUN chmod +x /tmp/nagios/initialize.sh
 ADD files/restart-nagios.sh /restart-nagios.sh
 RUN chmod +x /restart-nagios.sh
+RUN cp p1.pl /usr/local/nagios/share/
 
 RUN mkdir -p /var/log/nagios/rw
 RUN chown -R nagios:nagios /var/log/nagios

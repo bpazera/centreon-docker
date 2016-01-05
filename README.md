@@ -1,5 +1,5 @@
 [![](https://badge.imagelayers.io/bpazera/centreon-docker:latest.svg)](https://imagelayers.io/?images=bpazera/centreon-docker:latest 'Get your own badge on imagelayers.io')
-# Dockerized Centreon 2.6.6
+# Dockerized Centreon 2.6.6 + nagios 3.5.1 + nagios-plugins-2.1.1 + ndoutils-2.0.0
 Based on vegasbrianc/docker-centreon with some fixes and improvements
 This is NOT well-tested. 
 

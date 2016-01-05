@@ -3,9 +3,9 @@
 if [ ! -f /usr/local/nagios/etc/ ]
 then
 	yes n | cp -i /tmp/nagios/nagios.cfg /usr/local/nagios/etc/nagios.cfg
-	yes n | cp -i /tmp/nagios/nagios-4.1.1/sample-config/cgi.cfg /usr/local/nagios/etc/
-	yes n | cp -i /tmp/nagios/nagios-4.1.1/sample-config/resource.cfg /usr/local/nagios/etc/
-	cp -r /tmp/nagios/nagios-4.1.1/sample-config/template-object /usr/local/nagios/etc/objects
+	yes n | cp -i /tmp/nagios/nagios-3.5.1/sample-config/cgi.cfg /usr/local/nagios/etc/
+	yes n | cp -i /tmp/nagios/nagios-3.5.1/sample-config/resource.cfg /usr/local/nagios/etc/
+	cp -r /tmp/nagios/nagios-3.5.1/sample-config/template-object /usr/local/nagios/etc/objects
 fi
 chown -R nagios:nagios /usr/local/nagios/etc/
 chmod -R g+w /usr/local/nagios/etc/
