@@ -1,5 +1,4 @@
-<a href='https://imagelayers.io/?images=bpazera/centreon-docker:latest' title='Get your own badge on imagelayers.io'><img src='https://badge.imagelayers.io/bpazera/centreon-docker:latest.svg'></a>
-
+[![](https://badge.imagelayers.io/bpazera/centreon-docker:latest.svg)](https://imagelayers.io/?images=bpazera/centreon-docker:latest 'Get your own badge on imagelayers.io')
 # Dockerized Centreon 2.6.6
 Based on vegasbrianc/docker-centreon with small fixes
 This is NOT well-tested. 
@@ -12,10 +11,10 @@ while getting it to this stage..
 The configuration files and state data are stored on directories outside the container.
 We will mount external directories for all state that should not vanish when the container is regenerated:
 
- * /docker-store/centreon/nagios-etc
- * /docker-store/centreon/nagios-var
- * /docker-store/centreon/centreon-etc
- * /docker-store/centreon/centreon-var
+ * /var/container_data/centreon/nagios-etc
+ * /var/container_data/centreon/nagios-var
+ * /var/container_data/centreon/centreon-etc
+ * /var/container_data/centreon/centreon-var
 
 You may place these folders somewhere else, just make sure you update the corresponding paths below.
 
@@ -32,17 +31,48 @@ If your prefer to pull directly from Docker
 
 ## Running the container
 
+For Docker Compose you can use this entries:
+	  
+		centreon:
+		  container_name: centreon
+		  image: bpazera/centreon-docker
+		  restart: on-failure
+		  ports:
+			- "8081:80"
+		  links:
+			- mariadb:db
+		  privileged: true
+		  volumes:
+			- /var/container_data/centreon/config/nagios-etc:/usr/local/nagios/etc:rw
+			- /var/container_data/centreon/config/centreon-etc:/etc/centreon:rw
+			- /var/container_data/centreon/config/var:/usr/local/nagios/var:rw
+			- /var/container_data/centreon/lib:/var/lib/centreon:rw
+
+		mariadb:
+		  container_name: mariadb
+		  image: mariadb:latest
+		  restart: always
+		  volumes:
+			- "/var/container_data/mariadb/mysql:/var/lib/mysql:rw"
+			- "/var/container_data/mariadb/conf/my.cnf:/etc/mysql/my.cnf:ro"
+		  environment:
+			MYSQL_ROOT_PASSWORD: root
+			MYSQL_DATABASE: centreon
+			MYSQL_USER: centreon
+			MYSQL_PASSWORD: centreon
+
+You can also try to run isung docker cmd. (not tested)
 Now that's the easy part, as long as you remember to connect the right volumes:
 
 	docker run -i -t -p 8100:80 --name centreon \
-	  -v /docker-store/centreon/nagios-etc:/usr/local/nagios/etc \
-	  -v /docker-store/centreon/nagios-var:/usr/local/nagios/var \
-	  -v /docker-store/centreon/centreon-var:/var/lib/centreon \
-	  -v /docker-store/centreon/centreon-etc:/etc/centreon \
+	  -v /var/container_data/centreon/nagios-etc:/usr/local/nagios/etc \
+	  -v /var/container_data/centreon/nagios-var:/usr/local/nagios/var \
+	  -v /var/container_data/centreon/centreon-var:/var/lib/centreon \
+	  -v /var/container_data/centreon/centreon-etc:/etc/centreon \
 	  -v /etc/localtime:/etc/localtime:ro \
 	  --privileged=true \
 	  centreon /bin/bash
-
+			
 The 8100 is the host TCP port under which the Apache Webserver inside the container will be available on the outside. Change as desired.
 
 The `/bin/bash` drops you in a shell in exactly the situation where the container
