@@ -76,9 +76,11 @@ RUN mkdir -p /tmp/nagios
 WORKDIR /tmp/nagios
 
 RUN curl -SL https://assets.nagios.com/downloads/nagioscore/releases/nagios-3.5.1.tar.gz | tar -xzv
+RUN mv  /tmp/nagios/nagios /tmp/nagios/nagios-3.5.1
 RUN curl -SL http://www.nagios-plugins.org/download/nagios-plugins-2.1.1.tar.gz | tar -xzv
 RUN curl -SL "http://downloads.sourceforge.net/project/nagios/ndoutils-2.x/ndoutils-2.0.0/ndoutils-2.0.0.tar.gz?r=&ts=1451927776&use_mirror=kent" | tar -xzv
 RUN curl -SL https://s3-eu-west-1.amazonaws.com/centreon-download/public/centreon/centreon-2.6.6.tar.gz | tar -xzv
+#RUN curl -SL https://s3-eu-west-1.amazonaws.com/centreon-download/public/centreon-engine/centreon-engine-1.5.0.tar.gz
 RUN chown -R root:root centreon-2.6.6
 
 # Build Nagios
